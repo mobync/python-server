@@ -4,7 +4,7 @@ import abc
 class Synchronizer(metaclass=abc.ABCMeta):
 
    @abc.abstractmethod
-   def read(self):
+   def read(self, where, uuid):
       pass
 
    @abc.abstractmethod
@@ -19,5 +19,6 @@ class Synchronizer(metaclass=abc.ABCMeta):
    def delete(self):
       pass
 
-
-
+   @abc.abstractmethod
+   def validate(self):
+      pass
