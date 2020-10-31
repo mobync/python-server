@@ -19,12 +19,15 @@ class Model:
 
             setattr(self, key, value)
 
-    def to_json(self):
+    def to_dict(self):
         data = {'uuid': self.uuid}
         for field in self.__dataclass_fields__:
             data[field] = getattr(self, field)
 
-        return json.dumps(data)
+        return data
+
+    def to_json(self):
+        return json.dumps(self.to_dict())
 
     @classmethod
     def from_json(cls, data):
