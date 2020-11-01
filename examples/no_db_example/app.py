@@ -1,5 +1,6 @@
 from flask import Flask, session, redirect, url_for, request, abort, jsonify
 
+from examples.no_db_example.mock_data_base import DataBase
 from examples.no_db_example.models import Task
 from sync import Sync
 from examples.relational_db_example.implementation import Implementation
@@ -11,7 +12,7 @@ app = Flask(__name__)
 implementation = Implementation()
 sync = Sync(implementation)
 
-db = {}
+db = DataBase()
 
 
 @app.route('/sync', methods=['POST'])
@@ -27,7 +28,7 @@ def sync():
 
 @app.route('/list-tasks', methods=['GET'])
 def list_tasks():
-    resp = [task.to_dict() for task in db['tasks']]
+    resp = [task.to_dict() for task in db.get_table('tasks').list_table()]
     return jsonify(resp)
 
 
@@ -42,7 +43,7 @@ def load_mock_data():
         tasks.append(Task.from_json(f.read()))
         f.close()
 
-    db['tasks'] = tasks
+    db.add_table('tasks', tasks)
 
 
 if __name__ == '__main__':
