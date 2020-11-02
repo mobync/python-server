@@ -44,6 +44,18 @@ def add_item():
     return db.to_json()
 
 
+@app.route('/delete-item', methods=['POST'])
+def delete_item():
+    data = request.get_json()
+
+    try:
+        implementation.delete(data['where'], data['uuid'])
+    except (KeyError, TypeError):
+        abort(400)
+
+    return db.to_json()
+
+
 def load_mock_data():
     path = 'example_data'
     folder = 'tasks'

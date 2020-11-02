@@ -19,7 +19,7 @@ class Synchronizer(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def delete(self):
+    def delete(self, where: str, uuid: str):
         pass
 
     @abc.abstractmethod

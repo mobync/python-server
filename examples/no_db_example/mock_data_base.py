@@ -40,7 +40,7 @@ class Table:
             if valid:
                 selected_items.append(item)
 
-        return Table(selected_items)
+        return Table(self.item_class, selected_items)
 
     def list_table(self):
         return self.item_list
@@ -53,6 +53,14 @@ class Table:
         args = json.loads(data_json)
         new_row = self.item_class(**args)
         self.item_list.append(new_row)
+
+    def remove_row(self, uuid):
+        new_list = list()
+        for item in self.item_list:
+            if item.uuid != uuid:
+                new_list.append(item)
+
+        self.item_list = new_list
 
 
 class DataBase:

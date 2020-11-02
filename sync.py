@@ -10,9 +10,11 @@ class Sync:
         self.synchronizer = synchronizer
 
     def apply(self, data):
+        # Develop the diffs merge and apply algorithm
         return {}
 
     def is_valid(self, data):
+        # Verify if the diff format is correct
         if type(data) is dict:
             return True
         return True
