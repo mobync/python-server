@@ -5,7 +5,7 @@ from examples.no_db_example.models import Task
 from sync import Sync
 from examples.relational_db_example.implementation import Implementation
 from os import listdir
-from os.path import isfile, join
+from os.path import join
 
 app = Flask(__name__)
 
@@ -28,8 +28,7 @@ def sync():
 
 @app.route('/list-tasks', methods=['GET'])
 def list_tasks():
-    resp = [task.to_dict() for task in db.get_table('tasks').list_table()]
-    return jsonify(resp)
+    return db.to_json()
 
 
 def load_mock_data():

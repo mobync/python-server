@@ -1,4 +1,5 @@
-from typing import List
+import json
+from typing import List, Dict
 
 from examples.common.model import Model
 
@@ -41,10 +42,14 @@ class Table:
     def list_table(self):
         return self.item_list
 
+    def to_json(self):
+        resp = [m.to_dict() for m in self.list_table()]
+        return json.dumps(resp)
+
 
 class DataBase:
 
-    table_dict: dict
+    table_dict: Dict[str, Table]
 
     def __init__(self):
         self.table_dict = dict()
@@ -62,3 +67,9 @@ class DataBase:
         else:
             raise Warning('Tried to add repeated table {}'.format(table_name))
 
+    def to_json(self):
+        resp = dict()
+        for key in self.table_dict.keys():
+            resp[key] = json.loads(self.table_dict[key].to_json())
+
+        return json.dumps(resp)
