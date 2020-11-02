@@ -24,8 +24,10 @@ class Implementation(Synchronizer):
     def update(self):
         pass
 
-    def create(self):
-        pass
+    def create(self, where: str, data_json: str):
+        table = self.db.get_table(where)
+        if table:
+            table.add_row(data_json)
 
     def delete(self):
         pass

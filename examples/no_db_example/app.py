@@ -1,18 +1,19 @@
-from flask import Flask, session, redirect, url_for, request, abort, jsonify
+import json
 
-from examples.no_db_example.mock_data_base import DataBase
-from examples.no_db_example.models import Task
-from sync import Sync
-from examples.relational_db_example.implementation import Implementation
+from flask import Flask, session, redirect, url_for, request, abort, jsonify
 from os import listdir
 from os.path import join
 
+from examples.no_db_example.mock_data_base import DataBase
+from examples.no_db_example.models import Task
+from examples.no_db_example.implementation import Implementation
+from sync import Sync
+
 app = Flask(__name__)
-
-implementation = Implementation()
-sync = Sync(implementation)
-
 db = DataBase()
+
+implementation = Implementation(db)
+sync = Sync(implementation)
 
 
 @app.route('/sync', methods=['POST'])
@@ -26,8 +27,20 @@ def sync():
         abort(400, sync.error_message)
 
 
-@app.route('/list-tasks', methods=['GET'])
-def list_tasks():
+@app.route('/list-db', methods=['GET'])
+def list_db():
+    return db.to_json()
+
+
+@app.route('/add-item', methods=['POST'])
+def add_item():
+    data = request.get_json()
+
+    try:
+        implementation.create(data['where'], json.dumps(data['data']))
+    except (KeyError, TypeError):
+        abort(400)
+
     return db.to_json()
 
 
@@ -42,7 +55,7 @@ def load_mock_data():
         tasks.append(Task.from_json(f.read()))
         f.close()
 
-    db.add_table('tasks', tasks)
+    db.add_table('tasks', tasks, Task)
 
 
 if __name__ == '__main__':

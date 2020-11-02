@@ -4,6 +4,7 @@ from dataclasses import dataclass
 
 @dataclass
 class Task(Model):
+    uuid: str
     name: str
     created_time: str
     done: bool

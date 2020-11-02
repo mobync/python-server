@@ -15,7 +15,7 @@ class Synchronizer(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def create(self):
+    def create(self, where: str, data_json: str):
         pass
 
     @abc.abstractmethod
