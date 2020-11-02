@@ -36,9 +36,17 @@ class Diff(Model):
     __JSON_DATA: str = 'json_data'
 
     @staticmethod
-    def validate_diff_json(data):
+    def validate(data):
         if type(data) == str:
             data = json.loads(data)
+
+        if Diff.__validate_diff_json(data):
+            return Diff.__validate_type_with_json_data(data)
+
+        return False
+
+    @staticmethod
+    def __validate_diff_json(data: dict):
 
         valid = True
         field_list = [
@@ -61,6 +69,13 @@ class Diff(Model):
                     return False
 
         return valid
+
+    @staticmethod
+    def __validate_type_with_json_data(data):
+        if data[Diff.__TYPE] != OperationType.delete:
+            return Diff.__JSON_DATA in data and type(data[Diff.__JSON_DATA]) == str and bool(data[Diff.__JSON_DATA])
+        else:
+            return Diff.__JSON_DATA not in data or data[Diff.__JSON_DATA] is None or not bool(data[Diff.__JSON_DATA])
 
     @staticmethod
     def __validate_map():
@@ -103,6 +118,9 @@ class Diff(Model):
         return type(json_data) == str or json_data is None
 
     def __init__(self, **kwargs):
+        if not Diff.validate(kwargs):
+            raise Exception('Tried to instantiate an inconsistent Diff')
+
         Model.__init__(self, **kwargs)
 
     def __str__(self):
