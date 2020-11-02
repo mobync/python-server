@@ -15,13 +15,13 @@ class Mobync:
 
     def apply(self, logical_clock, diff_list: List[dict]) -> dict:
 
-        # for diff in diff_list:
-        #     if not Diff.validate(diff):
-        #         raise Exception('Tried to instantiate an inconsistent Diff')
-        #     if not self.synchronizer.validate(diff):
-        #         raise Exception('Unauthorized action by the server')
+        for diff in diff_list:
+            if not Diff.validate(diff):
+                raise Exception('Tried to instantiate an inconsistent Diff')
+            if not self.synchronizer.validate(diff):
+                raise Exception('Unauthorized action by the server')
 
-        # Sync algorithm here
+        # TODO: Sync algorithm here
 
         for diff in diff_list:
             self.synchronizer.create('diffs', json.dumps(diff))

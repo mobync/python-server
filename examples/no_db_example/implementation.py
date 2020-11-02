@@ -36,6 +36,6 @@ class Implementation(Synchronizer):
         table = self.db.get_table(where)
         table.remove_row(id)
 
-    def validate(self):
-        # Validate based on your business rules
-        pass
+    def validate(self, diff_json: str) -> bool:
+        # TODO: Validate based on your business rules
+        return True

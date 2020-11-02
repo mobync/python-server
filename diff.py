@@ -11,7 +11,7 @@ class OperationType(Enum):
 
     @classmethod
     def validate(cls, operation_type):
-        return type(operation_type) == int and cls.create <= operation_type <= cls.delete
+        return type(operation_type) == int and cls.create.value <= operation_type <= cls.delete.value
 
 
 @dataclass

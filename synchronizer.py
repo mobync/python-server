@@ -23,5 +23,5 @@ class Synchronizer(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def validate(self):
+    def validate(self, diff_json: str) -> bool:
         pass
