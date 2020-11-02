@@ -6,7 +6,7 @@ class SpecialDefault:
 
 
 class Model:
-    uuid: str
+    id: str
 
     def __init__(self, **kwargs):
         data = {}
@@ -20,7 +20,7 @@ class Model:
             setattr(self, key, value)
 
     def to_dict(self):
-        data = {'uuid': self.uuid}
+        data = {'id': self.id}
         for field in self.__dataclass_fields__:
             data[field] = getattr(self, field)
 
@@ -32,7 +32,7 @@ class Model:
     @classmethod
     def from_json(cls, data):
         data = json.loads(data)
-        uuid = data.pop('uuid', None)
+        id = data.pop('id', None)
         obj = cls(**data)
-        obj.uuid = uuid
+        obj.id = id
         return obj

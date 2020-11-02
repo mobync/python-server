@@ -54,10 +54,10 @@ class Table:
         new_row = self.item_class(**args)
         self.item_list.append(new_row)
 
-    def remove_row(self, uuid):
+    def remove_row(self, id):
         new_list = list()
         for item in self.item_list:
-            if item.uuid != uuid:
+            if item.id != id:
                 new_list.append(item)
 
         self.item_list = new_list

@@ -1,7 +1,7 @@
 import abc
 from typing import List
 
-from ReadFilter import ReadFilter
+from read_filter import ReadFilter
 
 
 class Synchronizer(metaclass=abc.ABCMeta):
@@ -19,7 +19,7 @@ class Synchronizer(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def delete(self, where: str, uuid: str):
+    def delete(self, where: str, id: str):
         pass
 
     @abc.abstractmethod

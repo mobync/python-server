@@ -49,7 +49,7 @@ def delete_item():
     data = request.get_json()
 
     try:
-        implementation.delete(data['where'], data['uuid'])
+        implementation.delete(data['where'], data['id'])
     except (KeyError, TypeError):
         abort(400)
 

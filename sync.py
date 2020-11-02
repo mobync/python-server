@@ -15,6 +15,21 @@ class Sync:
 
     def is_valid(self, data):
         # Verify if the diff format is correct
+
+        def validate_id(id):
+            return bool(id)
+
+        def validate_owner(owner):
+            return
+
+        def validate_upstream_height(upstream_height):
+            return type(upstream_height) == int and upstream_height >= 0
+
+        def validate_timestamp(timestamp):
+            return type(timestamp) == int and timestamp >= 0
+
+        # def validate_operation_type(operation_type):
+
         if type(data) is dict:
             return True
         return True

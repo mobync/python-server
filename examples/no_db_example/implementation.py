@@ -1,6 +1,6 @@
 from typing import List
 
-from ReadFilter import ReadFilter, FilterType
+from read_filter import ReadFilter, FilterType
 from examples.no_db_example.mock_data_base import DataBase
 from synchronizer import Synchronizer
 
@@ -32,9 +32,9 @@ class Implementation(Synchronizer):
         if table:
             table.add_row(data_json)
 
-    def delete(self, where: str, uuid: str):
+    def delete(self, where: str, id: str):
         table = self.db.get_table(where)
-        table.remove_row(uuid)
+        table.remove_row(id)
 
     def validate(self):
         # Validate based on your business rules
