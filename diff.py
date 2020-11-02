@@ -2,8 +2,6 @@ import json
 from dataclasses import dataclass
 from enum import Enum
 
-from examples.common.model import Model  # TODO: change model folder
-
 
 class OperationType(Enum):
 
@@ -17,23 +15,15 @@ class OperationType(Enum):
 
 
 @dataclass
-class Diff(Model):
+class Diff:
 
-    id: str
-    owner: str
-    logical_clock: int
-    utc_timestamp: int
-    type: OperationType
-    model: str
-    json_data: str
-
-    __ID: str = 'id'
-    __OWNER: str = 'owner'
-    __LOGICAL_CLOCK: str = 'logical_clock'
-    __UTC_TIMESTAMP: str = 'utc_timestamp'
-    __TYPE: str = 'type'
-    __MODEL: str = 'model'
-    __JSON_DATA: str = 'json_data'
+    ID: str = 'id'
+    OWNER: str = 'owner'
+    LOGICAL_CLOCK: str = 'logical_clock'
+    UTC_TIMESTAMP: str = 'utc_timestamp'
+    TYPE: str = 'type'
+    MODEL: str = 'model'
+    JSON_DATA: str = 'json_data'
 
     @staticmethod
     def validate(data):
@@ -50,43 +40,43 @@ class Diff(Model):
 
         valid = True
         field_list = [
-            Diff.__ID,
-            Diff.__OWNER,
-            Diff.__LOGICAL_CLOCK,
-            Diff.__UTC_TIMESTAMP,
-            Diff.__TYPE,
-            Diff.__MODEL,
-            Diff.__JSON_DATA,
+            Diff.ID,
+            Diff.OWNER,
+            Diff.LOGICAL_CLOCK,
+            Diff.UTC_TIMESTAMP,
+            Diff.TYPE,
+            Diff.MODEL,
+            Diff.JSON_DATA,
         ]
 
         for field in field_list:
             if field in data and valid:
-                valid = Diff.__validate_map()[field](data[Diff.__ID])
+                valid = Diff.__validate_map()[field](data[field])
             else:
                 if not valid:
                     return False
-                if field != Diff.json_data:
+                if field != Diff.JSON_DATA:
                     return False
 
         return valid
 
     @staticmethod
     def __validate_type_with_json_data(data):
-        if data[Diff.__TYPE] != OperationType.delete:
-            return Diff.__JSON_DATA in data and type(data[Diff.__JSON_DATA]) == str and bool(data[Diff.__JSON_DATA])
+        if data[Diff.TYPE] != OperationType.delete:
+            return Diff.JSON_DATA in data and type(data[Diff.JSON_DATA]) == str and bool(data[Diff.JSON_DATA])
         else:
-            return Diff.__JSON_DATA not in data or data[Diff.__JSON_DATA] is None or not bool(data[Diff.__JSON_DATA])
+            return Diff.JSON_DATA not in data or data[Diff.JSON_DATA] is None or not bool(data[Diff.JSON_DATA])
 
     @staticmethod
     def __validate_map():
         return {
-            Diff.__ID: Diff.__validate_id,
-            Diff.__OWNER: Diff.__validate_owner,
-            Diff.__LOGICAL_CLOCK: Diff.__validate_logical_clock,
-            Diff.__UTC_TIMESTAMP: Diff.__validate_utc_timestamp,
-            Diff.__TYPE: Diff.__validate_type,
-            Diff.__MODEL: Diff.__validate_model,
-            Diff.__JSON_DATA: Diff.__validate_json_data,
+            Diff.ID: Diff.__validate_id,
+            Diff.OWNER: Diff.__validate_owner,
+            Diff.LOGICAL_CLOCK: Diff.__validate_logical_clock,
+            Diff.UTC_TIMESTAMP: Diff.__validate_utc_timestamp,
+            Diff.TYPE: Diff.__validate_type,
+            Diff.MODEL: Diff.__validate_model,
+            Diff.JSON_DATA: Diff.__validate_json_data,
         }
 
     @staticmethod
@@ -116,12 +106,3 @@ class Diff(Model):
     @staticmethod
     def __validate_json_data(json_data):
         return type(json_data) == str or json_data is None
-
-    def __init__(self, **kwargs):
-        if not Diff.validate(kwargs):
-            raise Exception('Tried to instantiate an inconsistent Diff')
-
-        Model.__init__(self, **kwargs)
-
-    def __str__(self):
-        return self.to_json()

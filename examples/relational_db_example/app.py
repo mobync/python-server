@@ -1,7 +1,7 @@
 import os
 from flask import Flask, session, redirect, url_for, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from sync import Sync
+from mobync import Mobync
 from examples.relational_db_example.implementation import Implementation
 # import psycopg2
 
@@ -14,7 +14,7 @@ db = SQLAlchemy(app)
 from models import Task
 
 implementation = Implementation()
-sync = Sync(implementation)
+sync = Mobync(implementation)
 
 
 @app.route('/sync', methods=['POST'])

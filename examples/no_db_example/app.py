@@ -5,26 +5,30 @@ from os import listdir
 from os.path import join
 
 from examples.no_db_example.mock_data_base import DataBase
-from examples.no_db_example.models import Task
+from examples.no_db_example.models import Task, Diff
 from examples.no_db_example.implementation import Implementation
-from sync import Sync
+from mobync import Mobync
 
 app = Flask(__name__)
 db = DataBase()
 
 implementation = Implementation(db)
-sync = Sync(implementation)
+mobync = Mobync(implementation)
 
 
 @app.route('/sync', methods=['POST'])
 def sync():
     data = request.get_json()
 
-    if sync.is_valid(data):
-        resp = sync.apply(data)
-        return jsonify(resp)
-    else:
-        abort(400, sync.error_message)
+    if 'logical_clock' not in data or 'diffs' not in data:
+        abort(400)
+
+    try:
+        mobync.apply(data['logical_clock'], data['diffs'])
+    except(KeyError, TypeError):
+        abort(400)
+
+    return {'status': 'ok'}
 
 
 @app.route('/list-db', methods=['GET'])
@@ -68,6 +72,8 @@ def load_mock_data():
         f.close()
 
     db.add_table('tasks', tasks, Task)
+
+    db.add_table('diffs', [], Diff)
 
 
 if __name__ == '__main__':
