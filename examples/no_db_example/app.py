@@ -1,6 +1,6 @@
 import json
 
-from flask import Flask, session, redirect, url_for, request, abort, jsonify
+from flask import Flask, request, abort
 from os import listdir
 from os.path import join
 
