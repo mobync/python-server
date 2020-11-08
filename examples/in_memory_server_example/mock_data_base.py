@@ -2,7 +2,7 @@ import json
 import warnings
 from typing import List, Dict
 
-from examples.common.model import Model
+from model import Model
 
 
 class Table:

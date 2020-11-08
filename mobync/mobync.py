@@ -1,7 +1,7 @@
 import json
 from typing import List
 
-from diff import Diff, OperationType
+from mobync.diff import Diff, OperationType
 from read_filter import ReadFilter, FilterType
 from synchronizer import Synchronizer
 

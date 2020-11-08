@@ -1,6 +1,7 @@
-from diff import OperationType
-from examples.common.model import Model
+from mobync import OperationType
 from dataclasses import dataclass
+
+from model import Model
 
 
 @dataclass

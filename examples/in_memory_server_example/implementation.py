@@ -1,8 +1,9 @@
 from typing import List
 
-from read_filter import ReadFilter, FilterType
-from examples.no_db_example.mock_data_base import DataBase
-from synchronizer import Synchronizer
+from mobync import ReadFilter, FilterType
+from mobync import Synchronizer
+
+from mock_data_base import DataBase
 
 
 class Implementation(Synchronizer):

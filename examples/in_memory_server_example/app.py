@@ -1,14 +1,15 @@
 import json
 from pprint import pprint
 
+from mobync import Mobync
+
 from flask import Flask, request, abort
 from os import listdir
 from os.path import join
 
-from examples.no_db_example.mock_data_base import DataBase
-from examples.no_db_example.models import Task, Diff
-from examples.no_db_example.implementation import Implementation
-from mobync import Mobync
+from mock_data_base import DataBase
+from models import Task, Diff
+from implementation import Implementation
 
 app = Flask(__name__)
 db = DataBase()
@@ -36,13 +37,12 @@ def sync():
         abort(400)
 
     owner_id = get_owner_id_from_auth(data['auth_token'])
+    res = ''
 
-    # print('asdf')
     try:
         res = mobync.apply(data['logical_clock'], data['diffs'], owner_id)
     except Exception as e:
         print(e)
-        # print(TypeError)
         abort(400)
 
     pprint(res)
