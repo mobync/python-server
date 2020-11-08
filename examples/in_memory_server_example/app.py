@@ -7,9 +7,9 @@ from flask import Flask, request, abort
 from os import listdir
 from os.path import join
 
-from mock_data_base import DataBase
-from models import Task, Diff
-from implementation import Implementation
+from .mock_data_base import DataBase
+from .models import Task, Diff
+from .implementation import Implementation
 
 app = Flask(__name__)
 db = DataBase()
@@ -80,17 +80,17 @@ def delete_item():
 
 
 def load_mock_data():
-    path = 'example_data'
-    folder = 'tasks'
-    files = [join(path, folder, f) for f in listdir(join(path, folder))]
+    # path = 'example_data'
+    # folder = 'tasks'
+    # files = [join(path, folder, f) for f in listdir(join(path, folder))]
+    #
+    # tasks = []
+    # for file in files:
+    #     f = open(file)
+    #     tasks.append(Task.from_json(f.read()))
+    #     f.close()
 
-    tasks = []
-    for file in files:
-        f = open(file)
-        tasks.append(Task.from_json(f.read()))
-        f.close()
-
-    db.add_table('tasks', tasks, Task)
+    db.add_table('tasks', [], Task)
 
     db.add_table('diffs', [], Diff)
 

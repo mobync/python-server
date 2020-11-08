@@ -1,7 +1,7 @@
 from mobync import OperationType
 from dataclasses import dataclass
 
-from model import Model
+from .model import Model
 
 
 @dataclass
@@ -10,6 +10,18 @@ class Task(Model):
     name: str
     created_time: str
     done: bool
+
+    def __init__(self, **kwargs):
+        Model.__init__(self, **kwargs)
+
+    def __str__(self):
+        return self.to_json()
+
+
+@dataclass
+class Model1(Model):
+    id: str
+    field1: str
 
     def __init__(self, **kwargs):
         Model.__init__(self, **kwargs)

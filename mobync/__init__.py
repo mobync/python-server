@@ -7,7 +7,7 @@ mobync: The Library for online-offline synchronization
 
 import sys
 
-from mobync.diff import OperationType
+from mobync.diff import OperationType, Diff
 from mobync.read_filter import ReadFilter, FilterType
 from mobync.synchronizer import Synchronizer
 from mobync.mobync import Mobync

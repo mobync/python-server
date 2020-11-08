@@ -1,27 +1,17 @@
 # Mobync
 
+## Introduction
 
+Mobync is a protocol that allows mobile applications running on distributed clients to get synced to a single source of truth to manage users’ data using any storage type. Mobync users Dart and Flutter to implement this protocol and communicate to a web server written in Python.
 
+## Mobync Flutter Server Package
 
+Using Mobync, you will wrap your database operations in such a way that any local data will get synced to a remote server, what will allow users from multiple clients to have an offline-online experience.
 
-If error:
+## Run tests
 
-```
-Is the server running locally and accepting
-connections on Unix domain socket "/tmp/.s.PGSQL.5432"?
-```
-
-run:
-
-```
-brew services stop postgresql
-rm /usr/local/var/postgres/postmaster.pid # adjust path accordingly to your install
-brew services start postgresql
+```buildoutcfg
+python3 -m unittest test
 ```
 
-if doesn't work, try:
-
-```
-rm -rf /usr/local/var/postgres && initdb /usr/local/var/postgres -E utf8
-```
-
+#### Postgres implementation

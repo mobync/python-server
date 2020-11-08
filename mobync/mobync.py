@@ -107,7 +107,7 @@ class Mobync:
             print('')  # TODO: do update
         else:
             print('')  # TODO: do DELETE
-        self.synchronizer.create(self.diffs_model_name, json.dumps(diff))
+        # self.synchronizer.create(self.diffs_model_name, json.dumps(diff))
 
     def __mock_diff_treatment(self):
         for diff in self.client_diffs:

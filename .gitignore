@@ -140,3 +140,5 @@ cython_debug/
 *.idea/
 
 *.DS_store
+
+app.py

@@ -3,7 +3,7 @@ from typing import List
 from mobync import ReadFilter, FilterType
 from mobync import Synchronizer
 
-from mock_data_base import DataBase
+from .mock_data_base import DataBase
 
 
 class Implementation(Synchronizer):
