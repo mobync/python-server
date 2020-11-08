@@ -11,7 +11,7 @@ class Synchronizer(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def update(self) -> None:
+    def update(self, where: str, data_json: str) -> None:
         pass
 
     @abc.abstractmethod
@@ -23,7 +23,7 @@ class Synchronizer(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def delete(self, where: str, id: str) -> None:
+    def delete(self, where: str, data_json: str) -> None:
         pass
 
     @abc.abstractmethod

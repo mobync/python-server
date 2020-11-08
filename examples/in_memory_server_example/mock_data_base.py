@@ -92,6 +92,12 @@ class Table:
         new_row = self.item_class(**args)
         self.item_list.append(new_row)
 
+    def update_row(self, id: str, data: dict):
+        for item in self.item_list:
+            if item.id == id:
+                for key, value in data.items():
+                    setattr(item, key, value)
+
     def remove_row(self, id):
         new_list = list()
         for item in self.item_list:

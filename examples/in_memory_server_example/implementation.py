@@ -1,3 +1,4 @@
+import json
 from typing import List
 
 from mobync import ReadFilter, FilterType
@@ -27,19 +28,25 @@ class Implementation(Synchronizer):
 
         return filtered_data.to_json()
 
-    def update(self):
+    def update(self, where: str, data_json: str):
+        data = json.loads(data_json)
         table = self.db.get_table(where)
         if table:
-            table.add_row(data_json)
+            id = data.pop('id')
+            table.update_row(id, data)
 
     def create(self, where: str, data_json: str) -> str:
         table = self.db.get_table(where)
         if table:
             table.add_row(data_json)
 
-    def delete(self, where: str, id: str) -> str:
+    def delete(self, where: str, data_json: str) -> None:
+        data = json.loads(data_json)
+        id = data.pop('id')
+
         table = self.db.get_table(where)
-        table.remove_row(id)
+        if table:
+            table.remove_row(id)
 
     def validate(self, diff_json: str) -> bool:
         # TODO: Validate based on your business rules

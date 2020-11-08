@@ -22,13 +22,17 @@ class Mobync:
         self.synchronizer = synchronizer
         self.diffs_model_name = diffs_model_name
 
+    def __validate_diff(self, diff) -> bool:
+        if not Diff.validate(diff):
+            raise Exception('Tried to instantiate an inconsistent Diff')
+        if not self.synchronizer.validate(json.dumps(diff)):
+            raise Exception('Unauthorized action by the server')
+        return True
+
     def apply(self, logical_clock: str, diff_list: List[dict], owner_id: str) -> dict:
 
         for diff in diff_list:
-            if not Diff.validate(diff):
-                raise Exception('Tried to instantiate an inconsistent Diff')
-            if not self.synchronizer.validate(json.dumps(diff)):
-                raise Exception('Unauthorized action by the server')
+            self.__validate_diff(diff)
 
         client_last_sync_logical_clock = int(logical_clock)
         if client_last_sync_logical_clock < 0:
@@ -101,13 +105,13 @@ class Mobync:
         }
 
     def __apply_diff(self, diff: dict):
-        if diff[Diff.TYPE] == OperationType.create:
+        if diff[Diff.TYPE] == OperationType.create.name:
             self.synchronizer.create(diff[Diff.MODEL], diff[Diff.JSON_DATA])
-        elif diff[Diff.TYPE] == OperationType.update:
-            print('')  # TODO: do update
-        else:
-            print('')  # TODO: do DELETE
-        # self.synchronizer.create(self.diffs_model_name, json.dumps(diff))
+        elif diff[Diff.TYPE] == OperationType.update.name:
+            self.synchronizer.update(diff[Diff.MODEL], diff[Diff.JSON_DATA])
+        elif diff[Diff.TYPE] == OperationType.delete.name:
+            self.synchronizer.delete(diff[Diff.MODEL], diff[Diff.JSON_DATA])
+        self.synchronizer.create(self.diffs_model_name, json.dumps(diff))
 
     def __mock_diff_treatment(self):
         for diff in self.client_diffs:
