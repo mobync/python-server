@@ -11,7 +11,7 @@ class OperationType(Enum):
 
     @classmethod
     def validate(cls, operation_type):
-        return type(operation_type) == int and cls.create.value <= operation_type <= cls.delete.value
+        return type(operation_type) == str and operation_type in [cls.create.name, cls.update.name, cls.delete.name]
 
 
 @dataclass
@@ -52,6 +52,8 @@ class Diff:
         for field in field_list:
             if field in data and valid:
                 valid = Diff.__validate_map()[field](data[field])
+                if not valid:
+                    print(valid)
             else:
                 if not valid:
                     return False

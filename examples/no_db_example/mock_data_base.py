@@ -27,14 +27,52 @@ class Table:
 
         selected_items = list()
         for k in kwargs.keys():
-            if k not in self.item_parent.__dataclass_fields__.values():
-                return []
+            if k not in self.item_class.__dataclass_fields__:
+                return Table(self.item_class, [])
 
         for item in self.item_list:
             valid = True
             for k in kwargs.keys():
                 attribute = getattr(item, k)
                 if attribute != kwargs[k]:
+                    valid = False
+                    break
+            if valid:
+                selected_items.append(item)
+
+        return Table(self.item_class, selected_items)
+
+    def select_larger(self, **kwargs):
+
+        selected_items = list()
+        for k in kwargs.keys():
+            if k not in self.item_class.__dataclass_fields__:
+                return Table(self.item_class, [])
+
+        for item in self.item_list:
+            valid = True
+            for k in kwargs.keys():
+                attribute = getattr(item, k)
+                if not attribute > kwargs[k]:
+                    valid = False
+                    break
+            if valid:
+                selected_items.append(item)
+
+        return Table(self.item_class, selected_items)
+
+    def select_larger_or_equal(self, **kwargs):
+
+        selected_items = list()
+        for k in kwargs.keys():
+            if k not in self.item_class.__dataclass_fields__:
+                return Table(self.item_class, [])
+
+        for item in self.item_list:
+            valid = True
+            for k in kwargs.keys():
+                attribute = getattr(item, k)
+                if not attribute >= kwargs[k]:
                     valid = False
                     break
             if valid:

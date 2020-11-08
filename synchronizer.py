@@ -11,15 +11,19 @@ class Synchronizer(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def update(self):
+    def update(self) -> None:
         pass
 
     @abc.abstractmethod
-    def create(self, where: str, data_json: str):
+    def validate_create(self, where: str, data_json: str, auth: str) -> bool:
         pass
 
     @abc.abstractmethod
-    def delete(self, where: str, id: str):
+    def create(self, where: str, data_json: str) -> None:  # todo: should receive dict?
+        pass
+
+    @abc.abstractmethod
+    def delete(self, where: str, id: str) -> None:
         pass
 
     @abc.abstractmethod

@@ -1,4 +1,5 @@
 import json
+from pprint import pprint
 
 from flask import Flask, request, abort
 from os import listdir
@@ -16,19 +17,37 @@ implementation = Implementation(db)
 mobync = Mobync(implementation)
 
 
+def get_owner_id_from_auth(token):
+    return token
+
+
 @app.route('/sync', methods=['POST'])
 def sync():
     data = request.get_json()
+    pprint(data)
+
+    if 'auth_token' not in data or 'diffs' not in data:
+        abort(400)
 
     if 'logical_clock' not in data or 'diffs' not in data:
         abort(400)
 
-    try:
-        mobync.apply(data['logical_clock'], data['diffs'])
-    except(KeyError, TypeError):
+    if 'diffs' not in data or 'diffs' not in data:
         abort(400)
 
-    return {'status': 'ok'}
+    owner_id = get_owner_id_from_auth(data['auth_token'])
+
+    # print('asdf')
+    try:
+        res = mobync.apply(data['logical_clock'], data['diffs'], owner_id)
+    except Exception as e:
+        print(e)
+        # print(TypeError)
+        abort(400)
+
+    pprint(res)
+
+    return res
 
 
 @app.route('/list-db', methods=['GET'])

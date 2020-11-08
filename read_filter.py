@@ -13,3 +13,8 @@ class ReadFilter:
     field_name: str
     filter_by: FilterType
     data: any
+
+    def __init__(self, field_name: str, filter_by: FilterType, data: any):
+        self.field_name = field_name
+        self.filter_by = filter_by
+        self.data = data
