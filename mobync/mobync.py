@@ -115,9 +115,8 @@ class Mobync:
 
     def __mock_diff_treatment(self):
         for diff in self.client_diffs:
-            # self.state_changed = True
             diff[Diff.LOGICAL_CLOCK] = self.logical_clock + 1
-            self.synchronizer.create(self.diffs_model_name, json.dumps(diff))
+            self.__apply_diff(diff)
 
     def __diff_treatment(self):
         self.__simplify_server_and_client_diffs_with_delete_diffs()
