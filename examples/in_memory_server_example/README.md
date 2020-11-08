@@ -36,7 +36,7 @@ python app.py
 
 Now the server will be running on your localhost
 
-### Api
+### API
 
 #### http://localhost:5000/sync
 

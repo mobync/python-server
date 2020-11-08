@@ -3,15 +3,12 @@ from flask import Flask, session, redirect, url_for, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from mobync import Mobync
 from examples.relational_db_example.implementation import Implementation
-# import psycopg2
 
 app = Flask(__name__)
 
 app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-
-from models import Task
 
 implementation = Implementation()
 sync = Mobync(implementation)
