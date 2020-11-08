@@ -14,20 +14,14 @@ class Mobync:
     client_diffs: List[dict]
     diffs_to_apply_on_server: List[dict]
     diffs_to_apply_on_client: List[dict]
+    logical_clock: int
 
-    def __init__(self, synchronizer: Synchronizer, diffs_model_name='diffs'):
+    def __init__(self, synchronizer: Synchronizer, diffs_model_name: str = 'diffs'):
         if not issubclass(type(synchronizer), Synchronizer):
             Exception('synchronizer should be a subclass of Synchronizer, instead it was {}'.format(type(synchronizer)))
 
         self.synchronizer = synchronizer
         self.diffs_model_name = diffs_model_name
-
-    def __validate_diff(self, diff) -> bool:
-        if not Diff.validate(diff):
-            raise Exception('Tried to instantiate an inconsistent Diff')
-        if not self.synchronizer.validate(json.dumps(diff)):
-            raise Exception('Unauthorized action by the server')
-        return True
 
     def apply(self, logical_clock: str, diff_list: List[dict], owner_id: str) -> dict:
 
@@ -41,68 +35,56 @@ class Mobync:
                     logical_clock))
 
         a = self.synchronizer.read(self.diffs_model_name,
-                                                   [ReadFilter(Diff.OWNER, FilterType.equal, owner_id),
-                                                    ReadFilter(Diff.LOGICAL_CLOCK, FilterType.majorOrEqual,
-                                                               client_last_sync_logical_clock)])
+                                   [ReadFilter(Diff.OWNER, FilterType.equal, owner_id),
+                                    ReadFilter(Diff.LOGICAL_CLOCK, FilterType.majorOrEqual,
+                                               client_last_sync_logical_clock)])
         self.server_diffs = json.loads(a)
 
-
-
-        # TODO: change this
-        all_server_diffs = self.synchronizer.read(self.diffs_model_name,
-                                                  [ReadFilter(Diff.OWNER, FilterType.equal, owner_id)])
-        all_server_diffs = json.loads(all_server_diffs)
-
-        if all_server_diffs:
-            self.logical_clock = max([diff[Diff.LOGICAL_CLOCK] for diff in all_server_diffs])
-        else:
-            self.logical_clock = -1
-
-
+        self.logical_clock = self.__get_logical_clock(owner_id)
 
         self.client_diffs = diff_list
 
         self.diffs_to_apply_on_server = list()
         self.diffs_to_apply_on_client = list()
 
-        # TODO: change this
+        # TODO: change this, when using merge algorithm
         # self.__diff_treatment()
-        # self.state_changed = False
         self.__mock_diff_treatment()
 
         # Apply Diffs on server
         for diff in self.diffs_to_apply_on_server:
             self.__apply_diff(diff)
 
-        # if self.state_changed:
-        #     return_logical_clock = self.logical_clock + 1
-        # else:
-        #     return_logical_clock = self.logical_clock
+        self.logical_clock = self.__get_logical_clock(owner_id)
 
+        return {
+            'success': True,
+            'message': '',
+            'logical_clock': self.logical_clock + 1,
+            'diffs': self.server_diffs,  # TODO: change this, when using merge algorithm
+        }
 
+    def __validate_diff(self, diff: dict) -> bool:
+        # TODO: user validation should be applied here
 
-        # TODO: change this
+        if not Diff.validate(diff):
+            raise Exception('Tried to instantiate an inconsistent Diff')
+        if not self.synchronizer.validate(json.dumps(diff)):
+            raise Exception('Unauthorized action by the server')
+
+        return True
+
+    def __get_logical_clock(self, owner_id: str) -> int:
+        # TODO: change this, it could be get max from database (another filter_type)
+
         all_server_diffs = self.synchronizer.read(self.diffs_model_name,
                                                   [ReadFilter(Diff.OWNER, FilterType.equal, owner_id)])
         all_server_diffs = json.loads(all_server_diffs)
 
         if all_server_diffs:
-            self.logical_clock = max([diff[Diff.LOGICAL_CLOCK] for diff in all_server_diffs])
+            return max([diff[Diff.LOGICAL_CLOCK] for diff in all_server_diffs])
         else:
-            self.logical_clock = -1
-
-
-
-        # reply to client and client apply
-        return {
-            'success': True,
-            'message': '',
-            # 'logical_clock': str(client_last_sync_logical_clock + 1),
-            # 'logical_clock': return_logical_clock,
-            'logical_clock': self.logical_clock + 1,
-            # 'diffs': self.diffs_to_apply_on_client,
-            'diffs': self.server_diffs,  # TODO: change this
-        }
+            return -1
 
     def __apply_diff(self, diff: dict):
         if diff[Diff.TYPE] == OperationType.create.name:
@@ -119,6 +101,8 @@ class Mobync:
             self.__apply_diff(diff)
 
     def __diff_treatment(self):
+        # TODO: Finish this method to start using merge algorithm
+
         self.__simplify_server_and_client_diffs_with_delete_diffs()
         self.__merge_client_update_diffs()
         self.__merge_client_updates_into_client_creates()
