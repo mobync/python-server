@@ -1,7 +1,7 @@
 import abc
 from typing import List
 
-from read_filter import ReadFilter
+from mobync import ReadFilter
 
 
 class Synchronizer(metaclass=abc.ABCMeta):

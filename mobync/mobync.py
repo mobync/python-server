@@ -1,9 +1,9 @@
 import json
 from typing import List
 
-from mobync.diff import Diff, OperationType
-from read_filter import ReadFilter, FilterType
-from synchronizer import Synchronizer
+from .diff import Diff, OperationType
+from .read_filter import ReadFilter, FilterType
+from .synchronizer import Synchronizer
 
 
 class Mobync:
