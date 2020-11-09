@@ -1,0 +1,10 @@
+language: python
+python:
+  - "3.8"
+
+os: linux
+dist: bionic
+
+script:
+  - "python3 -m unittest tests/test_mobync_implementation.py"
+  - "python3 -m unittest tests/test_client_integration.py"
