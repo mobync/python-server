@@ -2,7 +2,7 @@
 <p>
     <img width="80" src="https://raw.githubusercontent.com/mobync/python-server/master/examples/in_memory_server_example/example_data/images/logo-round.png">
 </p>
-<h1>The Mobync Library</h1>
+<h1>The Mobync Python Lib</h1>
 </div>
 
 <div align="center">
