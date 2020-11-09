@@ -2,11 +2,9 @@
 <p>
     <img width="80" src="https://raw.githubusercontent.com/mobync/python-server/master/examples/in_memory_server_example/example_data/images/logo-round.png">
 </p>
-<h1>mobync</h1>
-
-[mobync](https://github.com/mobync) 
-
+<h1>The Mobync Library</h1>
 </div>
+
 <div align="center">
 
 [![Build Status](https://travis-ci.com/mobync/python-server.svg?branch=master)](https://travis-ci.com/mobync/python-server)
