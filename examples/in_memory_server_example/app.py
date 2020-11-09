@@ -8,7 +8,7 @@ from os import listdir
 from os.path import join
 
 from .mock_data_base import DataBase
-from .models import Task, Diff
+from .models import Task, Diff, Model1
 from .implementation import Implementation
 
 app = Flask(__name__)
@@ -90,8 +90,8 @@ def load_mock_data():
     #     tasks.append(Task.from_json(f.read()))
     #     f.close()
 
-    db.add_table('tasks', [], Task)
-
+    # db.add_table('tasks', [], Task)
+    db.add_table('model1', [], Model1)
     db.add_table('diffs', [], Diff)
 
 
