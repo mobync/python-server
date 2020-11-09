@@ -7,7 +7,7 @@ from mobync import ReadFilter
 class Synchronizer(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
-    def read(self, where: str, filters: List[ReadFilter]):
+    def read(self, where: str, filters: List[ReadFilter]) -> str:
         pass
 
     @abc.abstractmethod
