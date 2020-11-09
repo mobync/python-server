@@ -7,7 +7,7 @@ from mobync import ReadFilter
 class Synchronizer(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
-    def read(self, where: str, filters: List[ReadFilter]):
+    def read(self, where: str, filters: List[ReadFilter]) -> str:
         pass
 
     @abc.abstractmethod
@@ -27,5 +27,5 @@ class Synchronizer(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def validate(self, diff_json: str) -> bool:
+    def validate(self, diff_json: str) -> bool:  # TODO: deprecate
         pass
