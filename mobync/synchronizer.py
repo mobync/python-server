@@ -15,7 +15,7 @@ class Synchronizer(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def validate_create(self, where: str, data_json: str, auth: str) -> bool:
+    def validate_update(self, owner_id: str, **kwargs) -> bool:
         pass
 
     @abc.abstractmethod
@@ -23,9 +23,13 @@ class Synchronizer(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
+    def validate_create(self, owner_id: str, **kwargs) -> bool:
+        pass
+
+    @abc.abstractmethod
     def delete(self, where: str, data_json: str) -> None:
         pass
 
     @abc.abstractmethod
-    def validate(self, diff_json: str) -> bool:
+    def validate_delete(self, owner_id: str, **kwargs) -> bool:
         pass

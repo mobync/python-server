@@ -26,7 +26,7 @@ class Mobync:
     def apply(self, logical_clock: str, diff_list: List[dict], owner_id: str) -> dict:
 
         for diff in diff_list:
-            self.__validate_diff(diff)
+            self.__validate_diff(diff, owner_id)
 
         client_last_sync_logical_clock = int(logical_clock)
         if client_last_sync_logical_clock < 0:
@@ -64,13 +64,14 @@ class Mobync:
             'diffs': self.server_diffs,  # TODO: change this, when using merge algorithm
         }
 
-    def __validate_diff(self, diff: dict) -> bool:
-        # TODO: user validation should be applied here
-
+    def __validate_diff(self, diff: dict, owner_id: str) -> bool:
         if not Diff.validate(diff):
-            raise Exception('Tried to instantiate an inconsistent Diff')
-        if not self.synchronizer.validate(json.dumps(diff)):
-            raise Exception('Unauthorized action by the server')
+            raise Exception('Tried to instantiate an inconsistent Diff.')
+
+        if (diff[Diff.TYPE] == OperationType.create.name and not self.synchronizer.validate_create(owner_id, **diff)) or \
+                (diff[Diff.TYPE] == OperationType.update.name and not self.synchronizer.validate_update(owner_id, **diff)) or \
+                (diff[Diff.TYPE] == OperationType.delete.name and not self.synchronizer.validate_delete(owner_id, **diff)):
+            raise Exception('Unauthorized action by the business logic.')
 
         return True
 

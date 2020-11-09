@@ -48,9 +48,15 @@ class Implementation(Synchronizer):
         if table:
             table.remove_row(id)
 
-    def validate(self, diff_json: str) -> bool:
-        # TODO: Validate based on your business rules
-        return True
+    def __validate(self, owner_id: str, **kwargs) -> bool:
+        owner = kwargs['owner']
+        return owner_id == owner
 
-    def validate_create(self, where: str, data_json: str, uuid):
-        pass
+    def validate_create(self, owner_id: str, **kwargs) -> bool:
+        return self.__validate(owner_id, **kwargs)
+
+    def validate_update(self, owner_id: str, **kwargs) -> bool:
+        return self.__validate(owner_id, **kwargs)
+
+    def validate_delete(self, owner_id: str, **kwargs) -> bool:
+        return self.__validate(owner_id, **kwargs)
