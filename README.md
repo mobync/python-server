@@ -11,6 +11,15 @@
 
 </div>
 
+## Content
+
+* [Getting started](https://github.com/mobync/python-server#getting-started)
+* [Why use mobync](https://github.com/mobync/why-use-mobync)
+* [Example projects](https://github.com/mobync/example-projects)
+* [Setting up mobync on your project](https://github.com/mobync/setting-up-mobync-on-your-project)
+* [Mobync current limitations](https://github.com/mobync/mobync-current-limitations)
+* [Contributing](https://github.com/mobync/contributing)
+
 ## Getting started
 
 To use mobync, install the lib using pip:
@@ -18,6 +27,8 @@ To use mobync, install the lib using pip:
 ```bash
 pip install mobync
 ```
+
+Follow along the [setting up mobync on your project](https://github.com/mobync/setting-up-mobync-on-your-project) and the [example projects](https://github.com/mobync/example-projects) to setup mobync on your project.
 
 ## Why use mobync
 
@@ -210,10 +221,11 @@ def sync():
     return res
 ```
 
-
-## Mobync 
+## Mobync current limitations
 
 Mobync currently doesn't support 
+
+## Contributing
 
 ## Mobync Flutter Server Package
 
