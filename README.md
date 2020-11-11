@@ -28,17 +28,17 @@ To use mobync, install the lib using pip:
 pip install mobync
 ```
 
-Follow along the [setting up mobync on your project](https://github.com/mobync/python-server#setting-up-mobync-on-your-project) and the [example projects](https://github.com/mobync/python-server#example-projects) to setup mobync on your project.
+Follow along with the [setting up mobync on your project](https://github.com/mobync/python-server#setting-up-mobync-on-your-project) and the [example projects](https://github.com/mobync/python-server#example-projects) to set up mobync on your project.
 
 ## Why use mobync
 
 Mobync is a synchronization library aimed to facilitate online-offline sync between multiple devices for any frontend, any backend, and any database.
 
-This repository implements mobync server in python, that means you can start using mobync sync on your python backend regardless of which backend you might be using, or even which database.
+This repository implements the mobync server in python, which means you can start using mobync sync on your python backend regardless of which backend you might be using or even which database.
 
-As mobync aims to provide online-offline sync between client and server, you will need to use mobync library both on your frontend application and backend.
+As mobync aims to provide online-offline sync between client and server, you will need to use the mobync library both on your frontend application and backend.
 
-Currently mobync has a client dart implementation and a server python implementation. That means you can plug mobync on your flutter app and provide online-offline synchronization.
+Currently, mobync has a client dart implementation and a server python implementation. That means you can plug mobync on your flutter app and provide online-offline synchronization.
 
 ### Online-offline synchronization
 
@@ -48,7 +48,7 @@ Mobync will automatically make your app store your changes locally on your app's
 
 ### Multiple devices support
 
-your user can use your service across multiple devices at the same time and all will have them data synchronized with mobync.
+your user can use your service across multiple devices at the same time and all will have their data synchronized with mobync.
 
 Mobync implements a protocol that merges the user data and resolves conflicts. 
 
@@ -60,11 +60,11 @@ You can see some example projects using mobync on [Examples](https://github.com/
 
 #### [Relational Database](https://github.com/mobync/python-server/tree/master/examples/relational_db_example)
 
-An example project using mobync on a Flask backend using PostgreSQL database.
+An example project using mobync on a Flask backend using a PostgreSQL database.
 
 #### [In memory](https://github.com/mobync/python-server/tree/master/examples/in_memory_server_example)
 
-An example project using mobync on a Flask backend using in memory mock database.
+An example project using mobync on a Flask backend using an in-memory mock database.
 
 ## Setting up mobync on your project
 
@@ -91,7 +91,7 @@ json_data: str
 
 That means, for example, that if your database is relational you should create a table with that structure.
 
-The table name should be `diffs` by default, if it's not `diffs`, you have to pass the name to mobync constructor class when creating the mobync object on the following step.
+The table name should be `diffs` by default, if it's not `diffs`, you have to pass the name to the mobync constructor class when creating the mobync object on the following step.
 
 ### Implement a mobync Synchronizer child class
 
@@ -109,7 +109,7 @@ Inside the class you need to provide the following methods implementation:
 
 The read, update, create, and delete methods will create an interface to mobync interact with your database.
 
-The validate_create, validate_update, and validate_delete will be authentication rules that you will define to validate an operation on your database based on the owner id of that operation and the data been modified. In a practical way this means, for example, that you will define if an operation is valid based on which user is operating and what data they are changing.
+The validate_create, validate_update, and validate_delete will be authentication rules that you will define to validate an operation on your database based on the owner id of that operation, and the data has been modified. Practically, this means, for example, that you will define if an operation is valid based on which user is operating and what data they are changing.
 
 The following code is a possible way of implementing the methods:
 
@@ -179,7 +179,7 @@ implementation = Implementation(db) # The implementation you made on the previou
 mobync = Mobync(implementation) # Now you have the mobync object, which you will use on your API endpoint
 ```
 
-The, if you are using relational database, diffs table name should be `diffs` by default, if it's not `diffs`, you have to pass the name to mobync constructor class when creating the mobync object.
+Then, if you are using a relational database, the diffs table name should be `diffs` by default, if it's not `diffs`, you have to pass the name to the mobync constructor class when creating the mobync object.
 
 ```python
 mobync = Mobync(implementation, diffs_model_name='new_name')
@@ -187,15 +187,15 @@ mobync = Mobync(implementation, diffs_model_name='new_name')
 
 ### Implement a sync API endpoint 
 
-You will have to implement a sync API endpoint on your backend. The name of the endpoint can be changed, you only have to make sure that you set the same name both on frontend and backend setup. By default the endpoint can be '/sync'.
+You will have to implement a sync API endpoint on your backend. The name of the endpoint can be changed, you only have to make sure that you set the same name both on the frontend and backend setup. By default, the endpoint can be `/sync`.
 
-On the endpoint you have to read the authentication, logical clock and diffs. 
+On the endpoint, you have to read the authentication, logical clock, and diffs. 
 
-With those data you should get a owner id of the user that is making the sync request.
+With this data, you should get an owner id of the user that is making the sync request.
 
-With logical_clock, diffs, and owner_id data you have to call the mobync apply method from the mobync object you created on the previous step.
+With logical_clock, diffs, and owner_id data you have to call the mobync to apply the method from the mobync object you created in the previous step.
 
-The mobync apply method will perform all the synchronization algorithms, and validate and operate the data in your database using the implementation class you made.
+The mobync apply method will perform all the synchronization algorithms and validate and operate the data in your database using the implementation class you made.
 
 ```python
 @app.route('/sync', methods=['POST'])
@@ -229,7 +229,7 @@ Mobync currently doesn't support
 
 ## Mobync Flutter Server Package
 
-Using Mobync, you will wrap your database operations in such a way that any local data will get synced to a remote server, what will allow users from multiple clients to have an offline-online experience.
+Using Mobync, you will wrap your database operations in such a way that any local data will get synced to a remote server, which will allow users from multiple clients to have an offline-online experience.
 
 
 
