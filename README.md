@@ -57,7 +57,12 @@ An example project using mobync on a Flask backend using in memory mock database
 
 ## Setting up mobync on your project
 
-Mobync will work regardless of the database you use or the backend framework. All you need is to follow the steps.
+Mobync will work regardless of the database you use or the backend framework. All you need is to follow the setup steps.
+
+* [Create a Mobync diff model](https://github.com/mobync/python-server#create-a-mobync-diff-model)
+* [Implement a mobync Synchronizer child class](https://github.com/mobync/python-server#implement-a-mobync-synchronizer-child-class)
+* [Get a mobync object](https://github.com/mobync/python-server#get-a-mobync-object)
+* [Implement a sync API endpoint](https://github.com/mobync/python-server#implement-a-sync-api-endpoint)
 
 ### Create a Mobync diff model
 
@@ -74,6 +79,8 @@ json_data: str
 ```
 
 That means, for example, that if your database is relational you should create a table with that structure.
+
+The table name should be `diffs` by default, if it's not `diffs`, you have to pass the name to mobync constructor class when creating the mobync object on the following step.
 
 ### Implement a mobync Synchronizer child class
 
@@ -146,13 +153,43 @@ class Implementation(Synchronizer):
         return self.__validate(owner_id, **kwargs)
 ```
 
+### Get a mobync object
+
+
+
+```python
+from mobync import Mobync
+
+from .implementation import Implementation
+
+db = DataBase()
+
+implementation = Implementation(db) # The implementation you made on the previous step
+mobync = Mobync(implementation) # Now you have the mobync object, which you will use on your API endpoint
+```
+
+The, if you are using relational database, diffs table name should be `diffs` by default, if it's not `diffs`, you have to pass the name to mobync constructor class when creating the mobync object.
+
+```python
+mobync = Mobync(implementation, diffs_model_name='new_name')
+```
+
 ### Implement a sync API endpoint 
+
+You will have to implement a sync API endpoint on your backend. The name of the endpoint can be changed, you only have to make sure that you set the same name both on frontend and backend setup. By default the endpoint can be '/sync'.
+
+On the endpoint you have to read the authentication, logical clock and diffs. 
+
+With those data you should get a owner id of the user that is making the sync request.
+
+With logical_clock, diffs, and owner_id data you have to call the mobync apply method from the mobync object you created on the previous step.
+
+The mobync apply method will perform all the synchronization algorithms, and validate and operate the data in your database using the implementation class you made.
 
 ```python
 @app.route('/sync', methods=['POST'])
 def sync():
     data = request.get_json()
-    pprint(data)
 
     if 'auth_token' not in data or 'diffs' not in data:
         abort(400)
@@ -164,15 +201,11 @@ def sync():
         abort(400)
 
     owner_id = get_owner_id_from_auth(data['auth_token'])
-    res = ''
 
     try:
         res = mobync.apply(data['logical_clock'], data['diffs'], owner_id)
     except Exception as e:
-        print(e)
         abort(400)
-
-    pprint(res)
 
     return res
 ```
