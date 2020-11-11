@@ -13,12 +13,12 @@
 
 ## Content
 
-* [Getting started](https://github.com/mobync/python-server#getting-started)
-* [Why use mobync](https://github.com/mobync/why-use-mobync)
-* [Example projects](https://github.com/mobync/example-projects)
-* [Setting up mobync on your project](https://github.com/mobync/setting-up-mobync-on-your-project)
-* [Mobync current limitations](https://github.com/mobync/mobync-current-limitations)
-* [Contributing](https://github.com/mobync/contributing)
+* [Getting started](https://github.com/mobync/python-server#python-server#getting-started)
+* [Why use mobync](https://github.com/mobync/python-server#why-use-mobync)
+* [Example projects](https://github.com/mobync/python-server#example-projects)
+* [Setting up mobync on your project](https://github.com/mobync/python-server#setting-up-mobync-on-your-project)
+* [Mobync current limitations](https://github.com/mobync/python-server#mobync-current-limitations)
+* [Contributing](https://github.com/mobync/python-server#contributing)
 
 ## Getting started
 
@@ -28,7 +28,7 @@ To use mobync, install the lib using pip:
 pip install mobync
 ```
 
-Follow along the [setting up mobync on your project](https://github.com/mobync/setting-up-mobync-on-your-project) and the [example projects](https://github.com/mobync/example-projects) to setup mobync on your project.
+Follow along the [setting up mobync on your project](https://github.com/mobync/python-server#setting-up-mobync-on-your-project) and the [example projects](https://github.com/mobync/python-server#example-projects) to setup mobync on your project.
 
 ## Why use mobync
 
