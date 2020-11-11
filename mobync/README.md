@@ -4,6 +4,12 @@
 
 If any substantial change is made, please, help out with the documentation.
 
+## Run tests
+
+```buildoutcfg
+python3 -m unittest test
+```
+
 ### Upgrading version on PyPI
 
 Make sure you have the latest versions of setuptools and wheel installed:
