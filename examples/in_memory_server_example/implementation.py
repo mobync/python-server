@@ -1,8 +1,7 @@
 import json
 from typing import List
 
-from mobync import ReadFilter, FilterType
-from mobync import Synchronizer
+from mobync import ReadFilter, FilterType, Synchronizer
 
 from .mock_data_base import DataBase
 
