@@ -93,15 +93,27 @@ Then it will validate the diff based on the validations methods implemented by t
 
 Since the diffs are valid, they are simplified and merged with diffs on the server.
 
-The 
+The simplification is done by the method `__diff_treatment` on the Mobync class.
+
+The simplification procedures follows mobync protocol. In order to better understand the protocol and the simplification process, you can read the [Paper](https://github.com/mobync/python-server/blob/reports/reports/OFFLINE-ONLINE%20DATA%20SYNCHRONIZATION%20FOR%20DART%20MOBILE%20APPLICATIONS.pdf) that formally describe it.
+
+The Section 3.2.3.3 and the Appendix A describe how the merge works.
 
 #### Apply on server
 
+The selected diffs to be applied on the server will be stored on the server diffs and will be applied in the corresponding models.
 
+That means that you will store on the server the result of the diff, as well as the diff itself.
+
+It's necessary to keep storing the diff even after sync, because mobync supports multiple devices, this means that if the user has more then device to sync the diffs on the server will be necessary to merge with the other device.
 
 #### sent back to frontend with what needs to be applied there
 
-## Run tests
+Then, with the separated diffs to be applied on the frontend, the `apply` method will finally return the diffs that will be returned to the frontend, and applied there.
+
+## Tests
+
+### Run tests
 
 To run the tests locally:
 
@@ -113,6 +125,10 @@ python -m unittest tests/test_client_integration.py
 ### Creating new tests
 
 If any new feature is added, please consider creating new tests on the test folder and add them travis pipeline on `.travis.yml`.
+
+### Run tests
+
+In order to understand the `test_client_integration.py`, you can check the test section in the [Paper](https://github.com/mobync/python-server/blob/reports/reports/OFFLINE-ONLINE%20DATA%20SYNCHRONIZATION%20FOR%20DART%20MOBILE%20APPLICATIONS.pdf).
 
 ## Uploading a new version on PyPI
 
