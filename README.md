@@ -7,6 +7,7 @@
 
 <div align="center">
 
+[![Build Version](https://img.shields.io/pypi/v/mobync.svg)](https://pypi.org/project/mobync/)
 [![Build Status](https://travis-ci.com/mobync/python-server.svg?branch=master)](https://travis-ci.com/mobync/python-server)
 [![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/mobync/python-server/blob/master/LICENSE.md)
 
