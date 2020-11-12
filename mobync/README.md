@@ -62,15 +62,42 @@ class Synchronizer(metaclass=abc.ABCMeta):
 
 ### The user will implement a Sync API endpoint
 
-When data coming from the user frontend hit the sync endpoint 
+When data coming from the user frontend hits the sync endpoint the lib user has to call the Mobync `apply` method passing owner_id, logical_clock, and diffs.
+
+Inside `apply` method mobync will validate, merge the received data with diffs on server and return an answer containing what diffs need to be applied on frontend that will be send back to the frontend.
 
 ### The Sync process
 
 #### First the data is validated
 
-#### Then simplified, merged with diffs on server
+Inside the `apply` method, the data is first validated by the validate method:
 
-#### applied on server
+```python
+    def __validate_diff(self, diff: dict, owner_id: str) -> bool:
+        if not Diff.validate(diff):
+            raise Exception('Tried to instantiate an inconsistent Diff.')
+
+        if (diff[Diff.TYPE] == OperationType.create.name and not self.synchronizer.validate_create(owner_id, **diff)) or \
+                (diff[Diff.TYPE] == OperationType.update.name and not self.synchronizer.validate_update(owner_id, **diff)) or \
+                (diff[Diff.TYPE] == OperationType.delete.name and not self.synchronizer.validate_delete(owner_id, **diff)):
+            raise Exception('Unauthorized action by the business logic.')
+
+        return True
+```
+
+It will check if the diff is correctly structured, this is made by the validate method of Diff class. It will validate each of the fields and relations between them.
+
+Then it will validate the diff based on the validations methods implemented by the lib user.
+
+#### Then simplify and merge with diffs on server
+
+Since the diffs are valid, they are simplified and merged with diffs on the server.
+
+The 
+
+#### Apply on server
+
+
 
 #### sent back to frontend with what needs to be applied there
 
