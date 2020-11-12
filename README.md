@@ -225,14 +225,12 @@ def sync():
 
 ## Mobync current limitations
 
-Mobync currently doesn't support 
+Mobync currently doesn't support migrations or any change that rename or remove fields on data you are syncing. 
+
+You can add new fields, for example, if you are syncing a table that only has the `name` of users, you can add a new field called `age`, the sync will work fine. But you cannot change the field `name` to `first_name` and cannot remove the field `name`, otherwise the data in the diffs would be inconsistent with your database and mobync would crash while syncing.
+
+This is a problem that can be addressed in the future, but will require some significant changes.
 
 ## Contributing
 
-## Mobync Flutter Server Package
-
-Using Mobync, you will wrap your database operations in such a way that any local data will get synced to a remote server, which will allow users from multiple clients to have an offline-online experience.
-
-
-
-#### Postgres implementation
+To contribute to Mobync, please check the [Contributing to Mobync](https://github.com/mobync/python-server/tree/master/mobync) guide line.
